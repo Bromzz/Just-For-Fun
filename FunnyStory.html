@@ -1,0 +1,25 @@
+<html>
+<head>
+  <title>Funny Stories</title>
+  <style>
+    body {
+      background-color: lightblue;
+      transition: background-color 1m;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Funny Stories!</h1>
+  <p>Click the button below to read a random funny story from the internet:</p>
+  <button onclick="showStory()">Start</button>
+  <p id="story"></p>
+  <script>
+    function showStory() {
+      // Generate a random funny story
+      var story = "Once upon a time, a chicken and a tortoise decided to have a race. The chicken, being the confident and boastful creature that it was, immediately took off running as fast as it could. The tortoise, on the other hand, simply started walking at its own slow and steady pace. Much to the chicken's surprise, the tortoise ended up crossing the finish line before the chicken even got close. ";
+      // Display the story
+      document.getElementById("story").innerHTML = story;
+    }
+  </script>
+</body>
+</html>
