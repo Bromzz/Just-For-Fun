@@ -1,0 +1,55 @@
+<html>
+<head>
+  <title>Web Player</title>
+</head>
+<body>
+  <h1>Web Player</h1>
+  <p>Search and play videos from YouTube:</p>
+  <form id="search-form">
+    <input type="text" id="search-query" placeholder="Enter your search query">
+    <button type="submit">Search</button>
+  </form>
+  <div id="results"></div>
+  <div id="player"></div>
+  <script>
+    // Get the search form and results container
+    const searchForm = document.getElementById('search-form');
+    const resultsContainer = document.getElementById('results');
+    // Get the player container
+    const playerContainer = document.getElementById('player');
+
+    // Add a submit event listener to the search form
+    searchForm.addEventListener('submit', event => {
+      event.preventDefault(); // Prevent the form from submitting
+      // Get the search query from the form
+      const searchQuery = document.getElementById('search-query').value;
+      // Make a GET request to the YouTube Search API with the search query
+      fetch(`https://www.googleapis.com/youtube/v3/search?q=${searchQuery}&key=AIzaSyA010htB3cOeIYR5hGN_MlYTJmZCpCkOZ0&part=snippet`)
+        .then(response => response.json())
+        .then(data => {
+          // Clear the results container
+          resultsContainer.innerHTML = '';
+          // Loop through the search results and add a link for each video
+          data.items.forEach(item => {
+            const videoId = item.id.videoId;
+            const title = item.snippet.title;
+            const link = `<a href="#" data-video-id="${videoId}">${title}</a><br>`;
+            resultsContainer.innerHTML += link;
+          });
+          // Add a click event listener to the links in the results container
+          resultsContainer.addEventListener('click', event => {
+            // Check if the clicked element is a link
+            if (event.target.tagName === 'A') {
+              // Get the video ID from the link's data attribute
+              const videoId = event.target.getAttribute('data-video-id');
+              // Update the player with the new video
+              playerContainer.innerHTML = `
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              `;
+            }
+          });
+        });
+    });
+  </script>
+</body>
+</html>
